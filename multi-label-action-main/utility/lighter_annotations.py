@@ -22,6 +22,6 @@ def create_lighter_annots(ipfile, opfile):
             writer.writerow(row)
 
 if __name__ == '__main__':
-    ipfile = '/home/adutta/Workspace/Datasets/AnimalKingdom/action_recognition/annotation/train.csv'
-    opfile = '/home/adutta/Workspace/Datasets/AnimalKingdom/action_recognition/annotation/train_light.csv'
+    ipfile = '"C:\Users\jerem\CS571\Project\Datasets\Animal_Kingdom\action_recognition\annotation\train.csv"'
+    opfile = '"C:\Users\jerem\CS571\Project\Datasets\Animal_Kingdom\action_recognition\annotation\train_light.csv"'
     create_lighter_annots(ipfile, opfile)    

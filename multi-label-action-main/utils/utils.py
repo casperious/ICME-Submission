@@ -2,6 +2,7 @@ import os
 import socket
 import configparser as cp
 
+
 def accuracy(output, target, topk=(1,)):
     """Computes the precision@k for the specified values of k"""
     maxk = max(topk)
@@ -17,9 +18,10 @@ def accuracy(output, target, topk=(1,)):
         res.append(correct_k.mul_(100.0 / batch_size))
     return res
 
+
 class AverageMeter(object):
     """Computes and stores the average and current value
-       Imported from https://github.com/pytorch/examples/blob/master/imagenet/main.py#L247-L262
+    Imported from https://github.com/pytorch/examples/blob/master/imagenet/main.py#L247-L262
     """
 
     def __init__(self):
@@ -37,11 +39,13 @@ class AverageMeter(object):
         self.count += n
         self.avg = self.sum / self.count
 
+
 def read_config():
     config = cp.ConfigParser()
     cur_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    config.read(os.path.join(cur_path, 'location.cfg'))
+    config.read(os.path.join(cur_path, "location.cfg"))
     host = socket.gethostname()
-    if host[:3] == 'dgk':
-        host = 'jade2'
+    print(host)
+    if host[:3] == "dgk":
+        host = "jade2"
     return config[host]

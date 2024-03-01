@@ -3,6 +3,7 @@ import cv2
 import time
 import glob
 
+
 def video_to_frames(input_loc, output_loc):
     """Function to extract frames from input video file
     and save them as separate frames in an output directory.
@@ -19,12 +20,18 @@ def video_to_frames(input_loc, output_loc):
     # Log the time
     time_start = time.time()
     # Start capturing the feed
-    cap = cv2.VideoCapture(input_loc)
+    print("file exists?", os.path.exists("input.mp4"))
+    root = "AnimalAI"
+    fp = os.path.join(root, input_loc)
+    # print(fp)
+    cap = cv2.VideoCapture("input.mp4")  # was input_loc
+    if cap.isOpened() == False:
+        print("Error opening video file ")
     # Find the number of frames
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    print ("Number of frames: ", video_length)
+    print("Number of frames: ", video_length)
     count = 0
-    print ("Converting video...")
+    print("Converting video...")
     # Start converting the video
     while cap.isOpened():
         # Extract the frame
@@ -35,22 +42,25 @@ def video_to_frames(input_loc, output_loc):
         cv2.imwrite(output_loc + "/%#05d.jpg" % (count + 1), frame)
         count = count + 1
         # If there are no more frames left
-        if (count > (video_length - 1)):
+        if count > (video_length - 1):
             # Log the time again
             time_end = time.time()
             # Release the feed
             cap.release()
             # Print stats
-            print ("Done extracting frames.\n%d frames extracted" % count)
-            print ("It took %d seconds for conversion.\n" % (time_end - time_start))
+            print("Done extracting frames.\n%d frames extracted" % count)
+            print("It took %d seconds for conversion.\n" % (time_end - time_start))
             break
 
-if __name__=="__main__":
-    root_path = '/home/adutta/Workspace/Datasets/Hockey'
-    video_paths = sorted(glob.glob(os.path.join(root_path, 'period*-gray.avi')))
-    video_names = [video_paths[i].split('/')[-1].split('.')[0] for i in range(len(video_paths))]
+
+if __name__ == "__main__":
+    root_path = "/home/adutta/Workspace/Datasets/Hockey"
+    video_paths = sorted(glob.glob(os.path.join(root_path, "period*-gray.avi")))
+    video_names = [
+        video_paths[i].split("/")[-1].split(".")[0] for i in range(len(video_paths))
+    ]
     for i in range(len(video_names)):
         print(video_names[i])
-        input_loc = os.path.join(root_path, video_names[i] + '.avi')
+        input_loc = os.path.join(root_path, video_names[i] + ".avi")
         output_loc = os.path.join(root_path, video_names[i])
         video_to_frames(input_loc, output_loc)
